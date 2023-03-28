@@ -8,6 +8,8 @@
 // Las extensiones que vamos usar
 
 const path = require('path');
+const HtmlWebpackPlugin=require("html-webpack-plugin")
+
 
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -30,9 +32,16 @@ module.exports = {
       test:/\.m?js$/, //incluir
       exclude:/node_modules/,//no utilices nada de node modules
       use:{
-        loader:"babel-loader"
+        loader:"babel-loader"//el loader que utilizara para transformar los archivos
       }
     }
   ]
-}
+},
+  plugins:[
+    new HtmlWebpackPlugin({
+      inject:true,
+      template:"./public/index.html",
+      filename:"./index.html"
+    })
+  ]
 }
