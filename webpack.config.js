@@ -24,4 +24,15 @@ module.exports = {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
     extensions: [".js"]
   },
+  module:{
+    rules:[
+    {
+      test:/\.m?js$/, //incluir
+      exclude:/node_modules/,//no utilices nada de node modules
+      use:{
+        loader:"babel-loader"
+      }
+    }
+  ]
+}
 }
