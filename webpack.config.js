@@ -9,7 +9,8 @@
 
 const path = require('path');
 const HtmlWebpackPlugin=require("html-webpack-plugin")
-
+const MiniCssExtractPlugin=require("mini-css-extract-plugin")
+const CopyPlugin=require("copy-webpack-plugin");
 
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -20,7 +21,8 @@ module.exports = {
     // Con path.resolve podemos decir dónde va estar la carpeta y la ubicación del mismo
     path: path.resolve(__dirname, "dist"),
     // filename le pone el nombre al archivo final
-    filename: "main.js"
+    filename: "main.js",
+    assetModuleFilename:"assets/images/[hash][ext][query]"
   },
   resolve: {
     // Aqui ponemos las extensiones que tendremos en nuestro proyecto para webpack los lea
@@ -34,7 +36,33 @@ module.exports = {
       use:{
         loader:"babel-loader"//el loader que utilizara para transformar los archivos
       }
+    },
+    {
+    test:/\.css|.styl$/i,
+    use:[
+      MiniCssExtractPlugin.loader,"css-loader","stylus-loader"
+
+    ],
+  },
+  {
+    test:/\.png/,
+    type:"asset/resource"
+  },
+  {
+    test:/\.(woff|woff2)$/,
+    use:{
+      loader:"url-loader",
+      options:{
+        limit:10000,
+        mimetype:"aplicatio/fotn-woff",
+        name:"[name].[ext]",
+        outputPath:"./assets/fonts/",
+        publicPath:"./assets/fonts/",
+        esModule:false,
+
+      }
     }
+  }
   ]
 },
   plugins:[
@@ -42,6 +70,13 @@ module.exports = {
       inject:true,
       template:"./public/index.html",
       filename:"./index.html"
+    }),
+    new MiniCssExtractPlugin(),
+    new CopyPlugin({
+      patterns:[{
+        from:path.resolve(__dirname,"src","assets/images"),
+        to:"assets/images"
+      }]
     })
   ]
 }
