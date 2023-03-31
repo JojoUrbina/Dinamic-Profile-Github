@@ -13,6 +13,7 @@ const MiniCssExtractPlugin=require("mini-css-extract-plugin")
 const CopyPlugin=require("copy-webpack-plugin");
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const Dotenv=require("dotenv-webpack");
 
 module.exports = {
   // Entry nos permite decir el punto de entrada de nuestra aplicación
@@ -87,7 +88,8 @@ module.exports = {
         from:path.resolve(__dirname,"src","assets/images"),
         to:"assets/images"
       }]
-    })
+    }),
+    new Dotenv(),
   ],
   optimization:{
     minimize:true,
